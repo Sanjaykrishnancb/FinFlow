@@ -1,0 +1,6 @@
+{
+  "name": "CashFlow Guard",
+  "description": "Smart personal finance manager that tracks salary, expenses, and recurring payments with predictive cash shortage alerts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
