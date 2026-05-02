@@ -1,0 +1,6 @@
+{
+	"appId": "com.finflow.app",
+	"appName": "FinFlow",
+	"webDir": "dist",
+	"packageClassList": []
+}
