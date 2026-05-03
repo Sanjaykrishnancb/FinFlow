@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Budget, Category } from '../lib/types';
+import { DynamicIcon } from './DynamicIcon';
 
 interface Props {
   budgets: Budget[];
@@ -90,7 +91,7 @@ export function BudgetManager({ budgets, categories, onAdd, onDelete }: Props) {
                  onClick={() => onDelete(b.id)}
                  className="p-2 text-gray-400 hover:text-red-500 transition-colors flex items-center justify-center rounded-full hover:bg-red-50 grayscale hover:grayscale-0"
                >
-                 <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f5d1/512.gif" alt="delete" className="w-5 h-5" />
+                 <DynamicIcon gif="1f5d1" alt="delete" className="w-5 h-5" />
                </button>
              </div>
            ))}

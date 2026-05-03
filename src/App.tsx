@@ -9,6 +9,7 @@ import { GoalManager } from './components/GoalManager';
 import { DataManagement } from './components/DataManagement';
 import { CalendarView } from './components/CalendarView';
 import { SplashScreen } from './components/SplashScreen';
+import { DynamicIcon } from './components/DynamicIcon';
 import { Wallet, LayoutDashboard, ArrowLeftRight, Target, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -196,7 +197,7 @@ export default function App() {
       <header className="bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-20 md:flex hidden h-16">
         <div className="max-w-6xl mx-auto w-full px-4 h-full flex items-center justify-between">
           <div className="flex items-center gap-2">
-             <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif" alt="wallet" className="w-8 h-8"/>
+             <DynamicIcon gif="1f4b8" alt="wallet" className="w-8 h-8" />
             <h1 className="font-semibold text-lg tracking-tight">FinFlow</h1>
           </div>
           <nav className="flex gap-2">
@@ -210,7 +211,7 @@ export default function App() {
                     : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'
                 }`}
               >
-                <img src={`https://fonts.gstatic.com/s/e/notoemoji/latest/${item.gif}/512.gif`} alt={item.label} className="w-5 h-5" />
+                <DynamicIcon gif={item.gif} alt={item.label} className="w-5 h-5" />
                 {item.label}
               </button>
             ))}
@@ -221,7 +222,7 @@ export default function App() {
       {/* Mobile Top Bar */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-20 md:hidden h-14 flex items-center px-4 justify-between">
         <div className="flex items-center gap-2">
-           <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4b8/512.gif" alt="wallet" className="w-6 h-6"/>
+           <DynamicIcon gif="1f4b8" alt="wallet" className="w-6 h-6" />
           <h1 className="font-semibold text-base tracking-tight">FinFlow</h1>
         </div>
       </header>
@@ -315,7 +316,7 @@ export default function App() {
                 }`}
               >
                 <div className={`p-1.5 rounded-full transition-colors ${activeTab === item.id ? 'bg-gray-100' : ''}`}>
-                   <img src={`https://fonts.gstatic.com/s/e/notoemoji/latest/${item.gif}/512.gif`} alt={item.label} className="w-6 h-6" />
+                   <DynamicIcon gif={item.gif} alt={item.label} className="w-6 h-6" />
                 </div>
                 <span className="text-[10px] font-medium">{item.label}</span>
               </button>

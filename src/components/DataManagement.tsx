@@ -1,6 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { Transaction, Budget, Category, Goal } from '../lib/types';
 import { Download, Upload, Trash2, AlertTriangle, Check, X } from 'lucide-react';
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 
 interface Props {
   transactions: Transaction[];
@@ -20,7 +23,7 @@ export function DataManagement({ transactions, budgets, categories, goals, onImp
     goals?: Goal[];
   } | null>(null);
 
-  const handleExport = () => {
+  const handleExport = async () => {
     const data = {
       transactions,
       budgets,
@@ -29,15 +32,39 @@ export function DataManagement({ transactions, budgets, categories, goals, onImp
       exportDate: new Date().toISOString(),
       version: 1
     };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `cashflow-guard-backup-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    
+    const jsonString = JSON.stringify(data, null, 2);
+    const fileName = `cashflow-guard-backup-${new Date().toISOString().split('T')[0]}.json`;
+
+    if (Capacitor.isNativePlatform()) {
+      try {
+        const result = await Filesystem.writeFile({
+          path: fileName,
+          data: jsonString,
+          directory: Directory.Cache,
+          encoding: Encoding.UTF8
+        });
+        
+        await Share.share({
+          title: 'Export CashFlow Backup',
+          url: result.uri,
+          dialogTitle: 'Save Backup File'
+        });
+      } catch (e) {
+        console.error('Error exporting via Capacitor', e);
+        alert('Failed to export backup on this device.');
+      }
+    } else {
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
   };
 
   const handleImport = (e: React.ChangeEvent<HTMLInputElement>) => {

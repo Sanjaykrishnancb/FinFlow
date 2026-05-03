@@ -5,6 +5,7 @@ import { startOfMonth, endOfMonth, eachDayOfInterval, format, isSameMonth, isTod
 import { motion } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { DynamicIcon } from './DynamicIcon';
 
 interface Props {
   transactions: Transaction[];
@@ -46,7 +47,7 @@ export function CalendarView({ transactions }: Props) {
     <div className="bg-white rounded-3xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 overflow-hidden">
         <div className="px-6 py-5 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <h2 className="text-xl font-medium text-gray-900 flex items-center gap-2">
-                <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c5/512.gif" alt="calendar" className="w-6 h-6"/>
+                <DynamicIcon gif="1f4c5" alt="calendar" className="w-6 h-6" />
                 Monthly Record
             </h2>
             <div className="flex items-center gap-4">

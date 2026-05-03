@@ -5,6 +5,7 @@ import { isBefore, startOfDay, isAfter, format, isSameMonth, addDays, isSameDay,
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { motion } from 'motion/react';
 import { cn } from '../lib/utils';
+import { DynamicIcon } from './DynamicIcon';
 
 export function Dashboard({ transactions, budgets }: { transactions: Transaction[], budgets: Budget[] }) {
   const [daysAhead, setDaysAhead] = useState(365);
@@ -132,19 +133,21 @@ export function Dashboard({ transactions, budgets }: { transactions: Transaction
     });
   }
 
+  const widgetProps = {
+    initial: "hidden" as const,
+    whileInView: "visible" as const,
+    viewport: { once: true, margin: "0px 0px -50px 0px" },
+    variants: {
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+    }
+  };
+
   return (
-    <motion.div 
-      initial="hidden"
-      animate="visible"
-      variants={{
-        hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
-      }}
-      className="space-y-6"
-    >
+    <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="card p-6 bg-white rounded-3xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col justify-center">
+        <motion.div {...widgetProps} className="card p-6 bg-white rounded-3xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col justify-center">
           <div className="text-muted text-sm text-gray-500 mb-2 font-medium">Current Balance</div>
           <div className="text-5xl font-light tracking-tight text-gray-900">
              ${currentBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
@@ -152,9 +155,9 @@ export function Dashboard({ transactions, budgets }: { transactions: Transaction
         </motion.div>
 
         {hasShortage && (
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="card p-6 bg-red-50 rounded-3xl border border-red-100 col-span-1 md:col-span-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <motion.div {...widgetProps} className="card p-6 bg-red-50 rounded-3xl border border-red-100 col-span-1 md:col-span-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="h-12 w-12 rounded-full bg-red-100 flex items-center justify-center shrink-0">
-                    <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/26a0/512.gif" alt="warning" className="w-8 h-8"/>
+                    <DynamicIcon gif="26a0" alt="warning" className="w-8 h-8" />
                 </div>
                 <div>
                    <h3 className="text-red-900 font-medium">Cash Shortage Alert</h3>
@@ -166,9 +169,9 @@ export function Dashboard({ transactions, budgets }: { transactions: Transaction
             </motion.div>
         )}
         {!hasShortage && (
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="card p-6 bg-emerald-50 rounded-3xl border border-emerald-100 col-span-1 md:col-span-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <motion.div {...widgetProps} className="card p-6 bg-emerald-50 rounded-3xl border border-emerald-100 col-span-1 md:col-span-2 flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="h-12 w-12 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                    <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4c8/512.gif" alt="trending up" className="w-8 h-8"/>
+                    <DynamicIcon gif="1f4c8" alt="trending up" className="w-8 h-8" />
                 </div>
                 <div>
                    <h3 className="text-emerald-900 font-medium text-lg">Finances Looking Good</h3>
@@ -181,9 +184,9 @@ export function Dashboard({ transactions, budgets }: { transactions: Transaction
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="bg-fuchsia-50 rounded-3xl border border-fuchsia-100 p-6 flex flex-col md:flex-row md:items-start gap-4">
+          <motion.div {...widgetProps} className="bg-fuchsia-50 rounded-3xl border border-fuchsia-100 p-6 flex flex-col md:flex-row md:items-start gap-4">
               <div className="h-10 w-10 rounded-full bg-fuchsia-100 flex items-center justify-center shrink-0 text-fuchsia-600">
-                  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f4ca/512.gif" alt="chart" className="w-6 h-6"/>
+                  <DynamicIcon gif="1f4ca" alt="chart" className="w-6 h-6" />
               </div>
               <div className="flex-1 w-full">
                   <h3 className="text-fuchsia-900 font-medium mb-1">
@@ -211,9 +214,9 @@ export function Dashboard({ transactions, budgets }: { transactions: Transaction
               </div>
           </motion.div>
 
-          <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="bg-purple-50 rounded-3xl border border-purple-100 p-6 flex flex-col md:flex-row md:items-start gap-4">
+          <motion.div {...widgetProps} className="bg-purple-50 rounded-3xl border border-purple-100 p-6 flex flex-col md:flex-row md:items-start gap-4">
               <div className="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center shrink-0 text-purple-600">
-                  <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f514/512.gif" alt="bell" className="w-6 h-6"/>
+                  <DynamicIcon gif="1f514" alt="bell" className="w-6 h-6" />
               </div>
               <div className="flex-1 w-full">
                   <h3 className="text-purple-900 font-medium mb-1">
@@ -243,9 +246,9 @@ export function Dashboard({ transactions, budgets }: { transactions: Transaction
       </div>
 
       {upcomingPayments.length > 0 && (
-         <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="bg-blue-50 rounded-3xl border border-blue-100 p-6 flex flex-col md:flex-row md:items-start gap-4">
+         <motion.div {...widgetProps} className="bg-blue-50 rounded-3xl border border-blue-100 p-6 flex flex-col md:flex-row md:items-start gap-4">
              <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0 text-blue-600">
-                 <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/23f0/512.gif" alt="clock" className="w-6 h-6"/>
+                 <DynamicIcon gif="23f0" alt="clock" className="w-6 h-6" />
              </div>
              <div className="flex-1">
                  <h3 className="text-blue-900 font-medium mb-3">Approaching Recurring Payments</h3>
@@ -266,7 +269,7 @@ export function Dashboard({ transactions, budgets }: { transactions: Transaction
          </motion.div>
       )}
 
-      <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="bg-white rounded-3xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 p-6">
+      <motion.div {...widgetProps} className="bg-white rounded-3xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 p-6">
         <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-medium text-gray-900">Projected Balance (1 Year)</h3>
             <div className="text-sm text-emerald-600 font-medium">Trend</div>
@@ -318,7 +321,7 @@ export function Dashboard({ transactions, budgets }: { transactions: Transaction
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {budgets.length > 0 && (
-             <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="bg-white rounded-3xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 p-6 overflow-hidden">
+             <motion.div {...widgetProps} className="bg-white rounded-3xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 p-6 overflow-hidden">
                  <h3 className="text-lg font-medium text-gray-900 mb-6">Monthly Budgets</h3>
                  <div className="space-y-5">
                     {budgets.map(budget => {
@@ -357,7 +360,7 @@ export function Dashboard({ transactions, budgets }: { transactions: Transaction
              </motion.div>
           )}
 
-          <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className={cn("bg-white rounded-3xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 p-6 overflow-hidden", budgets.length === 0 ? "md:col-span-2" : "")}>
+          <motion.div {...widgetProps} className={cn("bg-white rounded-3xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 p-6 overflow-hidden", budgets.length === 0 ? "md:col-span-2" : "")}>
              <h3 className="text-lg font-medium text-gray-900 mb-6">Upcoming Events</h3>
          <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
             {projections.filter(p => isAfter(p.date, today)).slice(0, 10).map((day, idx) => (
@@ -391,6 +394,6 @@ export function Dashboard({ transactions, budgets }: { transactions: Transaction
          </div>
       </motion.div>
       </div>
-    </motion.div>
+    </div>
   );
 }

@@ -3,6 +3,7 @@ import { Transaction } from '../lib/types';
 import { format, parseISO } from 'date-fns';
 import { getRecurringDates } from '../lib/calculations';
 import { motion, AnimatePresence } from 'motion/react';
+import { DynamicIcon } from './DynamicIcon';
 
 interface Props {
   transactions: Transaction[];
@@ -57,12 +58,12 @@ export function TransactionList({ transactions, onDelete, onEditClick }: Props) 
                       <div className="flex flex-col gap-1.5 mt-1">
                          <div className="flex items-center gap-3">
                              <div className="flex items-center text-gray-500 text-xs">
-                                <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/231b/512.gif" alt="date" className="w-4 h-4 mr-1 pb-0.5" />
+                                <DynamicIcon gif="231b" alt="date" className="w-4 h-4 mr-1 pb-0.5" />
                                 {format(parseISO(t.date), 'MMM d, yyyy')}
                              </div>
                              {t.recurrence !== 'none' && (
                                  <div className="flex items-center text-blue-600 text-xs bg-blue-50 px-2 py-0.5 rounded-full font-medium">
-                                    <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2728/512.gif" alt="recurring" className="w-4 h-4 mr-1 pb-0.5" />
+                                    <DynamicIcon gif="2728" alt="recurring" className="w-4 h-4 mr-1 pb-0.5" />
                                     {t.recurrence}
                                  </div>
                              )}
@@ -94,14 +95,14 @@ export function TransactionList({ transactions, onDelete, onEditClick }: Props) 
                         className="p-2 text-gray-400 hover:text-blue-500 transition-colors rounded-full hover:bg-blue-50 flex items-center justify-center grayscale hover:grayscale-0"
                         title="Edit transaction"
                      >
-                        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/270f/512.gif" alt="edit" className="w-5 h-5" />
+                        <DynamicIcon gif="270f" alt="edit" className="w-5 h-5" />
                      </button>
                      <button
                         onClick={() => onDelete(t.id)}
                         className="p-2 text-gray-400 hover:text-red-500 transition-colors rounded-full hover:bg-red-50 flex items-center justify-center grayscale hover:grayscale-0"
                         title="Delete transaction"
                      >
-                        <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f5d1/512.gif" alt="delete" className="w-5 h-5" />
+                        <DynamicIcon gif="1f5d1" alt="delete" className="w-5 h-5" />
                      </button>
                    </div>
                 </div>
